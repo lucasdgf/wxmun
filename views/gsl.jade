@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  #left-menu
+    #toggle-nav
+      i.fa.fa-navicon
+    #side-nav
+      #input-area
+        input#add-country(type='text', autocomplete='on', placeholder='Add to GSL')
+        input#add-quorum(type='text', autocomplete='on', placeholder='Add to Quorum')
+      #list-area
+        h2.side-nav-title General Speakers List
+        ul#speakers-list
+          each country in gsl
+            li=country.name
+
+  #wrapper(class=expandClass)
+    ul#rollcall
+      each country in gsl
+        li.country-card(id=country.code)
+          img.country-flag(src='/images/' + country.name.replace(/ /g, '_').replace(/\'/g, '') + '.png')
+          h1.country-name= country.name
+      li.country-card-placeholder
+        img.country-flag(src='/images/no-country.jpg')
+        h1.country-name No countries in the GSL
+    #gsl-player
+      h1.time-left= gslTime
+      h2.time-left-label seconds
+      #gsl-action
+        i.fa.fa-stop.right-border-button(data=gslTime)
+        i.fa.fa-play.right-border-button(id='playButton')
+        i.fa.fa-check.right-border-button
+        i.fa.fa-clock-o

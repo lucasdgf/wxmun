@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  #wrapper(class='fullWidth')
+    #inputWrapper
+      ul#inputToggle
+        li#moderated_caucus.active Moderated Caucus
+        li#unmoderated_caucus Unmoderated Caucus
+        li#other Other
+      form.inputArea
+        h4 Moderated Caucus proposed by
+          input.longEntry(type='text', autocomplete='on')
+        h4 Total time of
+          input.narrowEntry(type='text')
+          and a speech time of
+          input.narrowEntry(type='text')
+          input(type='submit',value='Submit')
+
+    ul#sortable
+      li
+        span Motion for&nbsp;
+        b Unmoderated Caucus&nbsp;
+        span proposed by&nbsp;
+        b Austria&nbsp;
+        span for&nbsp;
+        b 10&nbsp;
+        span minutes
+      li
+        span Motion for&nbsp;
+        b Moderated Caucus&nbsp;
+        span proposed by&nbsp;
+        b Andorra&nbsp;
+        span for&nbsp;
+        b 15&nbsp;
+        span minutes,&nbsp;
+        b 30&nbsp;
+        span seconds per speech
+      li
+        span Motion for&nbsp;
+        b Moderated Caucus&nbsp;
+        span proposed by&nbsp;
+        b Russian Federation&nbsp;
+        span for&nbsp;
+        b 10&nbsp;
+        span minutes,&nbsp;
+        b 45&nbsp;
+        span seconds per speech

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  #wrapper(class=expandClass)
+    ul#rollcall
+      each country in rollCallCountries
+        li.country-card(id=country.code)
+          img.country-flag(src='/images/' + country.name.replace(/ /g, '_').replace(/\'/g, '') + '.png')
+          h1.country-name= country.name
+          #rollcall-action
+            i.btn.fa.fa-thumbs-down.right-border-button(data=country.code)
+            i.btn.fa.fa-thumbs-up(data=country.code, attendance=true)

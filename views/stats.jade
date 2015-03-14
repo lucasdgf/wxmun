@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  #wrapper(class='fullWidth')
+    #stats-table(style='width: ' + Math.min(80, 20 * (numberSessions + 1)) + '%')
+      h2 Total Countries: #{totalCountries}
+      table
+        thead
+          th(style='width: ' + (100 / (numberSessions + 1)) + '%') Country
+          - for (var i = 1; i <= numberSessions ; i++) {
+            th(style='width: ' + (100 / (numberSessions + 1)) + '%') Session #{i}
+          - }
+        tbody
+          each country in logs
+            tr
+              td= country.name
+              if country.attendance
+                each day in country.attendance
+                  td(class=day.record)
+                    if day.record == 'A'
+                      i.fa.fa-times
+                    else
+                      i.fa.fa-check

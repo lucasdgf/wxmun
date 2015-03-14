@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300')
+
+  body
+    - var expandClass = expand ? 'fullWidth' : 'narrow-right-content';
+    ul#header(class=expandClass)
+      each menu_item in ['gsl', 'motions', 'rollcall', 'stats']
+        - var activeClass = (menu_item == id) ? 'active' : ''
+        li(id = menu_item, class = activeClass)=menu_item
+
+    #committee-data(class=expandClass, data=totalCountries)
+      h2#page-title= title
+      h3#committee-title= committeeName
+      ul
+        li
+          h3#sm= Math.floor(quorum / 2) + 1
+          h4 Simple Majority
+        li
+          - var belowQuorum = (quorum < totalCountries / 3) ? 'belowQuorum' : ''
+          h3#quorum(class=belowQuorum)= quorum
+          h4 Quorum
+        li
+          h3#qm= Math.ceil((2 * quorum) / 3)
+          h4 Qualified Majority
+
+    block content
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+    script(src='https://code.jquery.com/ui/1.11.3/jquery-ui.min.js')
+    script.
+      var countries = !{JSON.stringify(countries)};
+      var gsl = !{JSON.stringify(gsl)};
+      var quorumCountries = !{JSON.stringify(quorumCountries)};
+    script(src='/javascripts/main.js')
+    script(src='/javascripts/' + id + '.js').
