@@ -54,6 +54,39 @@ router.get('/:committee/stats', function(req, res, next) {
   });
 });
 
+/* GET unmoderated caucus page. */
+router.get('/:committee/unmoderated/:country/:time', function(req, res, next) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var countryCode = req.params.country;
+  var caucusTime = req.params.time;
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      var committee = results[0];
+      committee.add('caucus', { type: 'Unmoderated Caucus',
+                                proposer: countryCode,
+                                time: caucusTime,
+                              });
+      committee.save();
+      res.render('unmoderated', { committee: committeeCode,
+                                  committeeName: committee.get('name'),
+                                  expand: true,
+                                  quorum: committee.get('quorum'),
+                                  time: caucusTime,
+                                  totalCountries: committee.get('delegates').length,
+                                  id: 'motions',
+                                  title: 'Unmoderated Caucus' });
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
 
 /* POST log present and absent */
 router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res) {
@@ -178,7 +211,9 @@ router.post('/:committee/removegsl/:countrycode', function(req, res) {
   committeeQuery.find({
     success: function(results) {
       var committee = results[0];
-      committee.remove('gsl', committee.get('gsl')[0]);
+      var gsl = committee.get('gsl').filter(function(country){ return country.code != countryCode });
+      console.log(gsl);
+      committee.set('gsl', gsl);
       committee.save();
       res.redirect('');
     },
@@ -309,6 +344,41 @@ router.get('/:committee/gsl', function(req, res, next) {
           alert('Error: ' + error.code + ' ' + error.message);
         }
       });
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
+
+/* GET general speakers list page. */
+router.get('/:committee/moderated/:totaltime/:timeperspeaker', function(req, res, next) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var totalTime = req.params.totaltime;
+  var timePerSpeaker = req.params.timeperspeaker;
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      // prepare for delegates query
+      var committee = results[0],
+          quorum = committee.get('quorum'),
+          committeeName = committee.get('name'),
+          quorumDelegates = committee.get('quorumDelegates');
+
+      res.render('moderated', { committee: committee.get('code'),
+                                committeeName: committeeName,
+                                quorum: quorum,
+                                quorumDelegates: quorumDelegates,
+                                timePerSpeaker: timePerSpeaker,
+                                totalTime: totalTime,
+                                expand: false,
+                                id: 'motions',
+                                title: 'Moderated Caucus' });
     },
     error: function(error) {
       console.log('Error: ' + error.code + ' ' + error.message);

@@ -210,9 +210,8 @@ ul {
 }
 
 #speakers-list > :first-child {
-  background: #be1f2e url('../images/background.png');
+  background: rgba(190, 31, 46, 0.4) url('../images/background.png');
   color: #fafafa;
-  opacity: 0.4;
 }
 
 /* scroll results */
@@ -261,6 +260,10 @@ ul {
   width: 360px;
 }
 
+.show {
+  display: block !important;
+}
+
 .country-flag {
   border-bottom: 1px solid #eee;
   border-radius: 6px 6px 0 0;
@@ -276,7 +279,7 @@ ul {
   width: 80%;
 }
 
-#rollcall-action, #gsl-action {
+#rollcall-action, #gsl-action, #caucus-action {
   background: linear-gradient(#fff, #f0f0f0);
   background-color: #f0f0f0;
   border-radius: 0 0 6px 6px;
@@ -297,23 +300,28 @@ ul {
 
 #rollcall-action .fa-thumbs-down:hover,
 #gsl-action .fa-stop:hover,
-#gsl-action .fa-pause:hover {
+#gsl-action .fa-pause:hover,
+#caucus-action .fa-stop:hover,
+#caucus-action .fa-pause:hover {
   color: #fff;
   background: rgba(227, 38, 46, 0.6);
 }
 
 #rollcall-action .fa-thumbs-up:hover,
-#gsl-action .fa-play:hover {
+#gsl-action .fa-play:hover,
+#caucus-action .fa-play:hover {
   color: #fff;
   background: rgba(138, 192, 7, 0.6);
 }
 
-#gsl-action .fa-check:hover {
+#gsl-action .fa-check:hover,
+#caucus-action .fa-check:hover {
   color: #fff;
   background: rgba(32, 63, 130, 0.78);
 }
 
-#gsl-player {
+#gsl-player,
+#caucus-player {
   background: #fff;
   border-radius: 6px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
@@ -322,13 +330,28 @@ ul {
   width: 360px;
 }
 
+.half-card {
+  display: inline-block;
+  width: 25%;
+}
+
 /* GSL Styles */
-#gsl-action i {
+#gsl-action i,
+#caucus-action i {
   color: #5f5f5f;
   cursor: pointer;
   font-size: 24px !important;
   padding: 10px 0;
   width: calc(33.3% - 1px);
+}
+
+.remove-gsl {
+  cursor: pointer;
+  float: right;
+}
+
+.remove-gsl:hover {
+  color: #be1f2e;
 }
 
 .fa-times-circle-o {
@@ -375,8 +398,7 @@ ul {
 }
 
 #stats-table table >:first-child {
-  background: #be1f2e url('../images/background.png');
-  opacity: 0.4;
+  background: rgba(190, 31, 46, 0.4) url('../images/background.png');
 }
 
 #stats-table td {
@@ -498,9 +520,8 @@ ul {
 }
 
 #sortable >:first-child {
-  background: #be1f2e url('../images/background.png');
+  background: rgba(190, 31, 46, 0.6) url('../images/background.png');
   color: #fafafa;
-  opacity: 0.6;
 }
 
 #upload-committee {

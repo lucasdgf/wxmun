@@ -1,4 +1,4 @@
-extends layout
+extends caucus-layout
 
 block content
   #left-menu
@@ -7,25 +7,17 @@ block content
     #side-nav
       #input-area
         input#add-country(type='text', autocomplete='on', placeholder='Add to GSL')
-        input#add-quorum(type='text', autocomplete='on', placeholder='Add to Quorum')
       #list-area
-        h2.side-nav-title General Speakers List
+        h2.side-nav-title Speakers List
         ul#speakers-list
-          each country in gsl
-            li=country.name
-              i.remove-gsl.fa.fa-times(id=country.code)
 
   #wrapper(class=expandClass)
     ul#rollcall
-      each country in gsl
-        li.country-card(id=country.code)
-          img.country-flag(src='/images/' + country.name.replace(/ /g, '_').replace(/\'/g, '') + '.png')
-          h1.country-name= country.name
       li.country-card-placeholder
         img.country-flag(src='/images/no-country.jpg')
-        h1.country-name No countries in the GSL
+        h1.country-name No countries in Speakers List
     #gsl-player
-      h1.time-left= gslTime
+      h1.time-left#seconds-left= timePerSpeaker
       h2.time-left-label seconds
       #gsl-action
         i.fa.fa-stop.right-border-button(data=gslTime)
