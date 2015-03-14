@@ -13,11 +13,11 @@ block content
         tbody
           each country in logs
             tr
-              td= country.name
-              if country.attendance
-                each day in country.attendance
-                  td(class=day.record)
-                    if day.record == 'A'
+              td= country.get('name')
+              if country.get('attendance')
+                each session in country.get('attendance')
+                  td(class=session.record)
+                    if session.record == 'A'
                       i.fa.fa-times
                     else
                       i.fa.fa-check

@@ -5,18 +5,8 @@ function nextSpeaker(countryCode) {
       url: 'removegsl/' + countryCode
     });
 
-    /*gsl.shift();
-    gslCountries.shift();
-
-    var source = quorum.filter(function(country) {
-      return gslCountries.indexOf(country) < 0;
-    });
-
-    $('#add-country').autocomplete("option", { source: source });
-
-    $('ul#rollcall').load('gsl ul#rollcall');
-    $('#list-area').load('gsl #list-area');*/
-    location.reload();
+    $('.country-card')[0].remove();
+    $('#speakers-list').children()[0].remove();
   }
 }
 
