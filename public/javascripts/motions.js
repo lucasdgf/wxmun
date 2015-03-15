@@ -56,7 +56,7 @@ $('.fa-stop').on('click', function() {
 });
 
 $('.fa-check').on('click', function() {
-  window.location.href = '/committee/' + this.getAttribute('data').toLowerCase() + '/gsl';
+  window.location.href = '/committee/' + this.getAttribute('data').toLowerCase() + '/motions';
 });
 
 /* Left menu */
@@ -97,8 +97,6 @@ function addController(element) {
   controller.appendChild(approveMotion);
 
   element.appendChild(controller);
-
-  $('input').val('');
 }
 
 // dismiss motion
@@ -139,7 +137,8 @@ $('.moderated_caucus #submit').on('click', function() {
 
     $('.motionController .fa-check').on('click', function() {
       window.location.href = '/committee/disec/moderated/' + $('.moderated_caucus #totalTime').val() + '/' + $('.moderated_caucus #speechTime').val();
-    });
+      $('input').val('');
+  });
   }
 });
 
@@ -163,7 +162,8 @@ $('.unmoderated_caucus #submit').on('click', function() {
 
     $('.motionController .fa-check').on('click', function() {
       window.location.href = '/committee/disec/unmoderated/ANDR/' + $('.unmoderated_caucus #totalTime').val();
-    });
+      $('input').val('');
+  });
   }
 });
 
@@ -187,7 +187,8 @@ $('.consultation_of_the_whole #submit').on('click', function() {
 
     $('.motionController .fa-check').on('click', function() {
       window.location.href = '/committee/disec/consultation/ANDR/' + $('.consultation_of_the_whole #totalTime').val();
-    });
+      $('input').val('');
+  });
   }
 });
 
