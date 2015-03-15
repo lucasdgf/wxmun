@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  #wrapper(class='fullWidth')
+    li.country-card.show
+      img.country-flag(src='/images/no-country.jpg')
+      h1.country-name= title
+    #caucus-player
+      .half-card
+        h1.time-left#minutes-left= time
+        h2.time-left-label minutes
+      .half-card
+        h1.time-left#seconds-left= 0
+        h2.time-left-label seconds
+      #caucus-action
+        i.fa.fa-stop.right-border-button(data=time)
+        i.fa.fa-play.right-border-button(id='playButton')
+        i.fa.fa-check.right-border-button(data=committee)

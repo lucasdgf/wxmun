@@ -468,9 +468,13 @@ ul {
   padding: 5px;
 }
 
-#inputWrapper input[type='submit'] {
+#submit {
   background: #be1f2e url('../images/background.png');
+  border-radius: 6px;
   color: #fafafa;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px;
   width: 80px;
 }
 
@@ -488,11 +492,12 @@ ul {
 }
 
 #inputToggle li {
+  cursor: pointer;
   display: inline-block;
   font-size: 16px;
   padding: 15px 0;
   text-align: center;
-  width: 33.3%;
+  width: 25%;
 }
 
 #inputToggle li.active {
@@ -543,4 +548,23 @@ ul {
 
 #upload-committee:hover h2 {
   color: #fff;
+}
+
+/* Motion */
+.motionController {
+  display: inline-block;
+  float: right;
+}
+
+.motionController i {
+  cursor: pointer;
+  padding: 0 20px 0 10px;
+}
+
+.motionController i:hover {
+  color: #be1f2e;
+}
+
+.ui-helper-hidden-accessible {
+  display: none;
 }

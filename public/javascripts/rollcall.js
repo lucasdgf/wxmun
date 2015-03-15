@@ -45,9 +45,9 @@ function logAttendance(countryCode, attendance) {
   $('#sm').text(sm);
   $('#qm').text(qm);
 
-  // decide if it should continue in rollcall or move to GSL
+  // decide if it should continue in rollcall or move to motions
   if($('.country-card').length <= 1) {
-    window.location.replace('gsl');
+    window.location.replace('motions');
   } else {
     $('#' + countryCode).remove();
   }

@@ -6,42 +6,40 @@ block content
       ul#inputToggle
         li#moderated_caucus.active Moderated Caucus
         li#unmoderated_caucus Unmoderated Caucus
+        li#consultation_of_the_whole Consultation of the Whole
         li#other Other
-      form.inputArea
+      form.inputArea.moderated_caucus
         h4 Moderated Caucus proposed by
-          input.longEntry(type='text', autocomplete='on')
+          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
         h4 Total time of
-          input.narrowEntry(type='text')
-          and a speech time of
-          input.narrowEntry(type='text')
-          input(type='submit',value='Submit')
+          input.narrowEntry#totalTime(type='text')
+          span minutes and a speech time of
+          input.narrowEntry#speechTime(type='text')
+          span seconds per delegate
+        h4 to discuss the topic
+          input.longEntry#topic(type='text')
+          #submit Submit
+      form.inputArea.unmoderated_caucus
+        h4 Unmoderated Caucus proposed by
+          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
+        h4 Total time of
+          input.narrowEntry#totalTime(type='text')
+          span minutes to discuss the topic
+          input.longEntry#topic(type='text')
+          #submit Submit
+      form.inputArea.consultation_of_the_whole
+        h4 Consultation of the Whole proposed by
+          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
+        h4 Total time of
+          input.narrowEntry#totalTime(type='text')
+          span minutes to discuss the topic
+          input.longEntry#topic(type='text')
+          #submit Submit
+      form.inputArea.other
+        h4 Other Motion proposed by
+          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
+        h4 to
+          input.longEntry#topic(type='text')
+          #submit Submit
 
     ul#sortable
-      li
-        span Motion for&nbsp;
-        b Unmoderated Caucus&nbsp;
-        span proposed by&nbsp;
-        b Austria&nbsp;
-        span for&nbsp;
-        b 10&nbsp;
-        span minutes
-      li
-        span Motion for&nbsp;
-        b Moderated Caucus&nbsp;
-        span proposed by&nbsp;
-        b Andorra&nbsp;
-        span for&nbsp;
-        b 15&nbsp;
-        span minutes,&nbsp;
-        b 30&nbsp;
-        span seconds per speech
-      li
-        span Motion for&nbsp;
-        b Moderated Caucus&nbsp;
-        span proposed by&nbsp;
-        b Russian Federation&nbsp;
-        span for&nbsp;
-        b 10&nbsp;
-        span minutes,&nbsp;
-        b 45&nbsp;
-        span seconds per speech
