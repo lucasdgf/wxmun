@@ -1,6 +1,7 @@
-extends layout
+extends basic-layout
 
 block content
-  #wrapper.expand-right-content
-    #upload-committee
-      h2 Drop your committee XML here
+  #wrapper.fullWidth
+    h1.page-title.center Select your committee
+    each committee in committees
+      .committeeSelector(id = committee.code)=committee.name
