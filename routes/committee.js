@@ -4,7 +4,7 @@ var Parse = require('parse').Parse;
 
 Parse.initialize('pY4jnhhdNKVRJjL0xGL9q4QQmsBbLXfPLpTMXPpx', 'oDLZE9iIj6GKD8mP8wY0cuBA1l37npMkjVEXn13P');
 
-/* GET stats page. */
+/* Stats Page */
 router.get('/:committee/stats', function(req, res, next) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -54,75 +54,7 @@ router.get('/:committee/stats', function(req, res, next) {
   });
 });
 
-/* GET unmoderated caucus page. */
-router.get('/:committee/unmoderated/:country/:time', function(req, res, next) {
-  // prepare for query
-  var committeeCode = req.params.committee.toUpperCase();
-  var countryCode = req.params.country;
-  var caucusTime = req.params.time;
-  var committeeClass = Parse.Object.extend('Committee');
-  var committeeQuery = new Parse.Query(committeeClass);
-
-  // find committee
-  committeeQuery.equalTo('code', committeeCode);
-  committeeQuery.find({
-    success: function(results) {
-      var committee = results[0];
-      committee.add('caucus', { type: 'Unmoderated Caucus',
-                                proposer: countryCode,
-                                time: caucusTime,
-                              });
-      committee.save();
-      res.render('unmoderated', { committee: committeeCode,
-                                  committeeName: committee.get('name'),
-                                  expand: true,
-                                  quorum: committee.get('quorum'),
-                                  time: caucusTime,
-                                  totalCountries: committee.get('delegates').length,
-                                  id: 'motions',
-                                  title: 'Unmoderated Caucus' });
-    },
-    error: function(error) {
-      console.log('Error: ' + error.code + ' ' + error.message);
-    }
-  });
-});
-
-/* GET consultation of the whole page. */
-router.get('/:committee/consultation/:country/:time', function(req, res, next) {
-  // prepare for query
-  var committeeCode = req.params.committee.toUpperCase();
-  var countryCode = req.params.country;
-  var caucusTime = req.params.time;
-  var committeeClass = Parse.Object.extend('Committee');
-  var committeeQuery = new Parse.Query(committeeClass);
-
-  // find committee
-  committeeQuery.equalTo('code', committeeCode);
-  committeeQuery.find({
-    success: function(results) {
-      var committee = results[0];
-      committee.add('caucus', { type: 'Consultation of the Whole',
-                                proposer: countryCode,
-                                time: caucusTime,
-                              });
-      committee.save();
-      res.render('consultation', { committee: committeeCode,
-                                  committeeName: committee.get('name'),
-                                  expand: true,
-                                  quorum: committee.get('quorum'),
-                                  time: caucusTime,
-                                  totalCountries: committee.get('delegates').length,
-                                  id: 'motions',
-                                  title: 'Consultation of the Whole' });
-    },
-    error: function(error) {
-      console.log('Error: ' + error.code + ' ' + error.message);
-    }
-  });
-});
-
-/* POST log present and absent */
+/* Attendance logging */
 router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -207,7 +139,7 @@ router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res
   });
 });
 
-/* POST add to GSL */
+/* Add delegate to GSL */
 router.post('/:committee/addtogsl/:countrycode/:countryname', function(req, res) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -232,7 +164,7 @@ router.post('/:committee/addtogsl/:countrycode/:countryname', function(req, res)
   });
 });
 
-/* POST remove from GSL */
+/* Remove delegate from GSL */
 router.post('/:committee/removegsl/:countrycode', function(req, res) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -258,7 +190,7 @@ router.post('/:committee/removegsl/:countrycode', function(req, res) {
   });
 });
 
-/* POST add to Quorum */
+/* Add delegate to Quorum */
 router.post('/:committee/addtoquorum/:countrycode/:countryname', function(req, res) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -284,7 +216,7 @@ router.post('/:committee/addtoquorum/:countrycode/:countryname', function(req, r
   });
 });
 
-/* GET roll call page. */
+/* Rollcall page */
 router.get('/:committee/rollcall', function(req, res, next) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -336,7 +268,7 @@ router.get('/:committee/rollcall', function(req, res, next) {
   });
 });
 
-/* GET general speakers list page. */
+/* GSL page */
 router.get('/:committee/gsl', function(req, res, next) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -386,7 +318,42 @@ router.get('/:committee/gsl', function(req, res, next) {
   });
 });
 
-/* GET general speakers list page. */
+/* Motions page */
+router.get('/:committee/motions', function(req, res, next) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      var committee = results[0];
+      var quorumDelegates = committee.get('quorumDelegates').sort(function(a, b) {
+        return (a.name > b.name) ? 1 : ((a.name < b.name) ? -1 : 0);
+      });
+
+      var quorum = committee.get('quorum'),
+          committeeName = committee.get('name'),
+          quorumDelegates = quorumDelegates;
+      res.render('motions', { committee: committeeCode,
+                              committeeName: committeeName,
+                              countries: committee.get('delegates'),
+                              gsl: committee.get('gsl'),
+                              quorum: quorum,
+                              quorumDelegates: quorumDelegates,
+                              expand: true,
+                              id: 'motions',
+                              title: 'Motions' });
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
+
+/* Moderated caucus page */
 router.get('/:committee/moderated/:totaltime/:timeperspeaker', function(req, res, next) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
@@ -421,10 +388,12 @@ router.get('/:committee/moderated/:totaltime/:timeperspeaker', function(req, res
   });
 });
 
-/* GET general speakers list page. */
-router.get('/:committee/motions', function(req, res, next) {
+/* Unmoderated caucus page */
+router.get('/:committee/unmoderated/:country/:time', function(req, res, next) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
+  var countryCode = req.params.country;
+  var caucusTime = req.params.time;
   var committeeClass = Parse.Object.extend('Committee');
   var committeeQuery = new Parse.Query(committeeClass);
 
@@ -433,22 +402,53 @@ router.get('/:committee/motions', function(req, res, next) {
   committeeQuery.find({
     success: function(results) {
       var committee = results[0];
-      var quorumDelegates = committee.get('quorumDelegates').sort(function(a, b) {
-        return (a.name > b.name) ? 1 : ((a.name < b.name) ? -1 : 0);
-      });
+      committee.add('caucus', { type: 'Unmoderated Caucus',
+                                proposer: countryCode,
+                                time: caucusTime,
+                              });
+      committee.save();
+      res.render('unmoderated', { committee: committeeCode,
+                                  committeeName: committee.get('name'),
+                                  expand: true,
+                                  quorum: committee.get('quorum'),
+                                  time: caucusTime,
+                                  totalCountries: committee.get('delegates').length,
+                                  id: 'motions',
+                                  title: 'Unmoderated Caucus' });
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
 
-      var quorum = committee.get('quorum'),
-          committeeName = committee.get('name'),
-          quorumDelegates = quorumDelegates;
-      res.render('motions', { committee: committeeCode,
-                              committeeName: committeeName,
-                              countries: committee.get('delegates'),
-                              gsl: committee.get('gsl'),
-                              quorum: quorum,
-                              quorumDelegates: quorumDelegates,
-                              expand: true,
-                              id: 'motions',
-                              title: 'Motions' });
+/* Consultation of the whole page */
+router.get('/:committee/consultation/:country/:time', function(req, res, next) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var countryCode = req.params.country;
+  var caucusTime = req.params.time;
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      var committee = results[0];
+      committee.add('caucus', { type: 'Consultation of the Whole',
+                                proposer: countryCode,
+                                time: caucusTime,
+                              });
+      committee.save();
+      res.render('consultation', { committee: committeeCode,
+                                  committeeName: committee.get('name'),
+                                  expand: true,
+                                  quorum: committee.get('quorum'),
+                                  time: caucusTime,
+                                  totalCountries: committee.get('delegates').length,
+                                  id: 'motions',
+                                  title: 'Consultation of the Whole' });
     },
     error: function(error) {
       console.log('Error: ' + error.code + ' ' + error.message);

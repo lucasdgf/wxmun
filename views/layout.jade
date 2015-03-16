@@ -9,7 +9,7 @@ html
   body
     - var expandClass = expand ? 'fullWidth' : 'narrow-right-content';
     ul#header(class=expandClass)
-      each menu_item in ['gsl', 'motions', 'rollcall', 'stats']
+      each menu_item in ['gsl', 'motions', 'rollcall']
         - var activeClass = (menu_item == id) ? 'active' : ''
         li(id = menu_item, class = activeClass, data = committee)=menu_item
 
@@ -21,7 +21,7 @@ html
           h3#sm= Math.floor(quorum / 2) + 1
           h4 Simple Majority
         li
-          - var belowQuorum = (quorum < totalCountries / 3) ? 'belowQuorum' : ''
+          - var belowQuorum = (quorum < totalCountries / 4) ? 'belowQuorum' : ''
           h3#quorum(class=belowQuorum)= quorum
           h4 Quorum
         li
