@@ -9,7 +9,7 @@ html
   body
     - var expandClass = expand ? 'fullWidth' : 'narrow-right-content';
     ul#header(class=expandClass)
-      each menu_item in ['gsl', 'motions', 'rollcall']
+      each menu_item in ['gsl', 'motions', 'rollcall', 'notes', 'timer']
         - var activeClass = (menu_item == id) ? 'active' : ''
         li(id = menu_item, class = activeClass, data = committee)=menu_item
 

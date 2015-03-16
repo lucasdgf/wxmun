@@ -1,0 +1,15 @@
+extends generic-layout
+
+block content
+  #wrapper(class='fullWidth')
+    #textArea
+      form.inputArea
+        textArea.textField(type='text', autocomplete='off', placeholder='New Note')
+        #submitNote Add
+
+    h2#notes-title All Notes
+    ul#allNotes
+      if notes.length == 0
+        li#no-notes No notes yet
+      each note in notes
+        li= note

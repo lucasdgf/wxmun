@@ -93,11 +93,6 @@ router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res
           var present = (attendance.record == 'P') ? 1 : 0;
           var quorum;
 
-          // in case this is the end of a rollcall
-          if(attendanceCount >= committee.get('delegates').length) {
-            attendanceCount = 0;
-          }
-
           // restart quorum delegates array if applicable
           if(attendanceCount == 1) {
             quorum = present;
@@ -113,9 +108,14 @@ router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res
                                                name: delegate.get('name') });
           }
 
-          // update attendanceCount and quorum
-          committee.set('attendanceCount', attendanceCount);
           committee.set('quorum', quorum);
+          committee.save();
+
+          // in case this is the end of a rollcall
+          if(attendanceCount >= committee.get('delegates').length) {
+            attendanceCount = 0;
+            committee.set('attendanceCount', 0);
+          }
 
           if(attendanceCount == 0) {
             // log quorum at the end of rollcall
@@ -449,6 +449,84 @@ router.get('/:committee/consultation/:country/:time', function(req, res, next) {
                                   totalCountries: committee.get('delegates').length,
                                   id: 'motions',
                                   title: 'Consultation of the Whole' });
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
+
+/* Generic text box page */
+router.get('/:committee/notes', function(req, res, next) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      var committee = results[0],
+          notes = committee.get('notes').reverse();
+
+      res.render('notes', { committee: committeeCode,
+                            committeeName: committee.get('name'),
+                            expand: true,
+                            notes: notes,
+                            quorum: committee.get('quorum'),
+                            totalCountries: committee.get('delegates').length,
+                            id: 'notes',
+                            title: 'Committee Notes' });
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
+
+/* Save note */
+router.post('/:committee/addnote', function(req, res) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      var committee = results[0];
+      committee.add('notes', req.body.note);
+      committee.save();
+      res.redirect('');
+    },
+    error: function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
+
+/* Generic timer page */
+router.get('/:committee/timer', function(req, res, next) {
+  // prepare for query
+  var committeeCode = req.params.committee.toUpperCase();
+  var committeeClass = Parse.Object.extend('Committee');
+  var committeeQuery = new Parse.Query(committeeClass);
+
+  // find committee
+  committeeQuery.equalTo('code', committeeCode);
+  committeeQuery.find({
+    success: function(results) {
+      var committee = results[0];
+
+      res.render('timer', { committee: committeeCode,
+                            committeeName: committee.get('name'),
+                            expand: true,
+                            quorum: committee.get('quorum'),
+                            totalCountries: committee.get('delegates').length,
+                            id: 'timer',
+                            title: 'Committee Timer' });
     },
     error: function(error) {
       console.log('Error: ' + error.code + ' ' + error.message);

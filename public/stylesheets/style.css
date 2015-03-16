@@ -291,7 +291,7 @@ ul {
   cursor: pointer;
   font-size: 36px !important;
   padding: 20px 0;
-  width: calc(50% - 1px);
+  width: calc(50% - 2px);
 }
 
 .right-border-button {
@@ -342,7 +342,7 @@ ul {
   cursor: pointer;
   font-size: 24px !important;
   padding: 10px 0;
-  width: calc(33.3% - 1px);
+  width: calc(33.3% - 2px);
 }
 
 .remove-gsl {
@@ -567,4 +567,76 @@ ul {
 
 .ui-helper-hidden-accessible {
   display: none;
+}
+
+/* Notes area */
+
+#textArea {
+  text-align: center;
+}
+
+.textField {
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
+  border: none;
+  border-radius: 6px;
+  font: 24px 'Roboto Condensed', sans-serif;
+  font-weight: 300;
+  height: 200px;
+  padding: 20px;
+  text-align: top;
+  width: calc(60% - 120px);
+}
+
+#submitNote {
+  background: #be1f2e url('../images/background.png');
+  border-radius: 6px;
+  color: #fafafa;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  margin: 0px 0 0 20px;
+  padding: 10px;
+  vertical-align: bottom;
+  width: 60px;
+}
+
+#allNotes {
+  list-style: none;
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+  width: 60%;
+}
+
+#allNotes li {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 300;
+  height: 18px;
+  margin: 10px 0;
+  padding: 20px;
+  text-align: left;
+}
+
+#notes-title {
+  color: rgba(21, 21, 21, 0.8);
+  font-size: 28px;
+  margin: 0 auto 10px auto;
+  text-align: center;
+}
+
+
+/* Timer */
+.time-input {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 30px !important;
+  margin: 20px 0 10px 0;
+  padding-bottom: 10px;
+  text-align: center;
+  width: 60px;
 }
