@@ -60,9 +60,9 @@ $('.fa-check').on('click', function() {
 });
 
 /* Left menu */
-var quorumDelegates = quorumDelegates.map(function(country){ return country.name; });
+var quorumNames = quorumDelegates.map(function(country){ return country.name; });
 
-$('#add-country').autocomplete({ source: quorumDelegates })
+$('#add-country').autocomplete({ source: quorumNames })
 .bind('keydown', function(){
   if ($(this).val() == '') {
     $('.ui-autocomplete').hide();
@@ -104,7 +104,7 @@ function addActions() {
 
 // Set autocomplete
 function autocomplete() {
-  $('form .proposerField').autocomplete({ source: quorumDelegates,
+  $('form .proposerField').autocomplete({ source: quorumNames,
                                                  disabled: false })
   .bind('keydown', function(){
     if ($(this).val() == '') {
@@ -118,6 +118,13 @@ function autocomplete() {
       $('.ui-autocomplete').show();
     }
   });
+}
+
+// Find code by country name
+function findCountryCode(countryName) {
+  return quorumDelegates.filter(function(country) {
+    return country.name == countryName;
+  })[0].code;
 }
 
 autocomplete();
@@ -151,22 +158,23 @@ $('.moderated_caucus #submit').on('click', function() {
   }
   else {
     var li = document.createElement('li');
-    li.innerHTML = '<text>Motion for <b>Moderated Caucus</b> proposed by <b>'
-                   + $('.moderated_caucus #proposer').val()
-                   + '</b> for <b>' + $('.moderated_caucus #totalTime').val()
-                   + '</b> minutes, <b>' + $('.moderated_caucus #speechTime').val()
-                   + '</b> seconds per speech, to discuss the topic <b>'
-                   + $('.moderated_caucus #topic').val() + '</b></text>';
+    li.innerHTML = '<text>Motion for <span>Moderated Caucus</span> proposed by <span id="proposer">'
+                   + proposer + '</span> for <span id="totalTime">' + totalTime + '</span> minutes, <span id="speechTime">'
+                   + speechTime + '</span> seconds per speech, to discuss the topic <span id="topic">'
+                   + topic + '</span></text>';
     addController(li);
     $('ul#sortable').append(li);
     addActions();
     $('input').val('');
 
     $('.motionController .fa-check').on('click', function() {
-      window.location.href = '/committee/disec/moderated/' + $('.moderated_caucus #totalTime').val() + '/' + $('.moderated_caucus #speechTime').val();
-      $('input').val('');
-      $('.ui-autocomplete').hide();
-  });
+      var motion = $(this.parentElement.parentElement),
+          countryCode = findCountryCode(motion.find('#proposer').text()),
+          totalTime = motion.find('#totalTime').text(),
+          speechTime = motion.find('#speechTime').text();
+
+      window.location.href = '/committee/disec/moderated/' + countryCode + '/' + totalTime + '/' + speechTime;
+    });
   }
 });
 
@@ -183,20 +191,21 @@ $('.unmoderated_caucus #submit').on('click', function() {
   }
   else {
     var li = document.createElement('li');
-    li.innerHTML = '<text>Motion for <b>Unmoderated Caucus</b> proposed by <b>'
-                   + $('.unmoderated_caucus #proposer').val()
-                   + '</b> for <b>' + $('.unmoderated_caucus #totalTime').val()
-                   + '</b> minutes, to discuss the topic <b>'
-                   + $('.unmoderated_caucus #topic').val() + '</b></text>';
+    li.innerHTML = '<text>Motion for <span>Unmoderated Caucus</span> proposed by <span id="proposer">'
+                   + proposer + '</span> for <span id="totalTime">' + totalTime
+                   + '</span> minutes, to discuss the topic <span id="topic">'
+                   + topic + '</span></text>';
     addController(li);
     $('ul#sortable').append(li);
     addActions();
     $('input').val('');
 
     $('.motionController .fa-check').on('click', function() {
-      window.location.href = '/committee/disec/unmoderated/ANDR/' + $('.unmoderated_caucus #totalTime').val();
-      $('input').val('');
-      $('.ui-autocomplete').hide();
+      var motion = $(this.parentElement.parentElement),
+          countryCode = findCountryCode(motion.find('#proposer').text()),
+          totalTime = motion.find('#totalTime').text();
+
+      window.location.href = '/committee/disec/unmoderated/' + countryCode + '/' + totalTime;
   });
   }
 });
@@ -214,19 +223,22 @@ $('.consultation_of_the_whole #submit').on('click', function() {
   }
   else {
     var li = document.createElement('li');
-    li.innerHTML = '<text>Motion for <b>Consultation of the Whole</b> proposed by <b>'
-                   + $('.consultation_of_the_whole #proposer').val()
-                   + '</b> for <b>' + $('.consultation_of_the_whole #totalTime').val()
-                   + '</b> minutes, to discuss the topic <b>'
-                   + $('.consultation_of_the_whole #topic').val() + '</b></text>';
+    li.innerHTML = '<text>Motion for <span>Consultation of the Whole</span> proposed by <span id="proposer">'
+                   + proposer + '</span> for <span id="totalTime">' + totalTime
+                   + '</span> minutes, to discuss the topic <span id="topic">'
+                   + topic + '</span></text>';
     addController(li);
     $('ul#sortable').append(li);
     addActions();
     $('input').val('');
 
     $('.motionController .fa-check').on('click', function() {
-      window.location.href = '/committee/disec/consultation/ANDR/' + $('.consultation_of_the_whole #totalTime').val();
-  });
+      var motion = $(this.parentElement.parentElement),
+          countryCode = findCountryCode(motion.find('#proposer').text()),
+          totalTime = motion.find('#totalTime').text();
+
+      window.location.href = '/committee/disec/consultation/' + countryCode + '/' + totalTime;
+    });
   }
 });
 
@@ -239,9 +251,8 @@ $('.other #submit').on('click', function() {
   }
   else {
     var li = document.createElement('li');
-    li.innerHTML = '<text>Motion for <b>' + $('.other #topic').val()
-                   + '</b> to <b>'
-                   + $('.other #topic').val() + '</b></text>';
+    li.innerHTML = '<text>Motion proposed by <span id="proposer">' + proposer
+                   + '</span> to <span id="topic">' + topic + '</span></text>';
     addController(li);
     $('ul#sortable').append(li);
     addActions();

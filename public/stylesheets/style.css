@@ -544,6 +544,10 @@ ul {
   color: #fafafa;
 }
 
+#sortable li span {
+  font-weight: 600;
+}
+
 /* Motion */
 .motionController {
   display: inline-block;

@@ -354,9 +354,10 @@ router.get('/:committee/motions', function(req, res, next) {
 });
 
 /* Moderated caucus page */
-router.get('/:committee/moderated/:totaltime/:timeperspeaker', function(req, res, next) {
+router.get('/:committee/moderated/:country/:totaltime/:timeperspeaker', function(req, res, next) {
   // prepare for query
   var committeeCode = req.params.committee.toUpperCase();
+  var countryCode = req.params.country;
   var totalTime = req.params.totaltime;
   var timePerSpeaker = req.params.timeperspeaker;
   var committeeClass = Parse.Object.extend('Committee');

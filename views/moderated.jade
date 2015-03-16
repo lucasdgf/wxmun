@@ -16,10 +16,10 @@ block content
       li.country-card-placeholder
         img.country-flag(src='/images/no-country.jpg')
         h1.country-name No countries in Speakers List
-    #gsl-player
+    #caucus-player
       h1.time-left#seconds-left= timePerSpeaker
       h2.time-left-label seconds
-      #gsl-action
-        i.fa.fa-stop.right-border-button(data=gslTime)
+      #caucus-action
+        i.fa.fa-stop.right-border-button(data=time)
         i.fa.fa-play.right-border-button(id='playButton')
-        i.fa.fa-check.right-border-button
+        i.fa.fa-check.right-border-button(data=committee)
