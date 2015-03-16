@@ -8,13 +8,19 @@ $('#submitNote').on('click', function() {
     $.ajax({
       type: 'POST',
       url: 'addnote',
-      data: { note: note }
+      data: { note: nl2br(note) }
     });
 
     $('#no-notes').remove();
 
     var li = document.createElement('li');
-    li.textContent = note;
+    li.innerHTML = nl2br(note);
+
+    $(li).on('click', function() {
+      var note = $(this).text();
+      $('textArea').val(note);
+    });
+    
     $('#allNotes').prepend(li);
   }
 });

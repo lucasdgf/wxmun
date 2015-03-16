@@ -6,9 +6,10 @@ block content
       i.fa.fa-navicon
     #side-nav
       #input-area
-        input#add-country(type='text', autocomplete='on', placeholder='Add to GSL')
+        input#add-country(type='text', autocomplete='on', placeholder='Add to Speakers List')
       #list-area
-        h2.side-nav-title Speakers List
+        h2.side-nav-title Speakers Left:&nbsp;
+          span#speakers-left #{ totalTime * 60 / timePerSpeaker }
         ul#speakers-list
 
   #wrapper(class=expandClass)
@@ -17,9 +18,9 @@ block content
         img.country-flag(src='/images/no-country.jpg')
         h1.country-name No countries in Speakers List
     #caucus-player
-      h1.time-left#seconds-left= timePerSpeaker
+      h1.time-left#seconds-left(data = timePerSpeaker)= timePerSpeaker
       h2.time-left-label seconds
       #caucus-action
         i.fa.fa-stop.right-border-button(data=time)
         i.fa.fa-play.right-border-button(id='playButton')
-        i.fa.fa-check.right-border-button(data=committee)
+        i.fa.fa-check(data=committee)

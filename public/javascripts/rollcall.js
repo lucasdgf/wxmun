@@ -58,7 +58,3 @@ function logAttendance(countryCode, attendance) {
     $('#quorum').removeClass('belowQuorum');
   }
 }
-
-$(function() {
-  updateAutocomplete();
-});

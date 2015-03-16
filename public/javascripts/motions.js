@@ -56,25 +56,19 @@ $('.fa-stop').on('click', function() {
 });
 
 $('.fa-check').on('click', function() {
-  window.location.href = '/committee/' + this.getAttribute('data').toLowerCase() + '/motions';
-});
-
-/* Left menu */
-var quorumNames = quorumDelegates.map(function(country){ return country.name; });
-
-$('#add-country').autocomplete({ source: quorumNames })
-.bind('keydown', function(){
-  if ($(this).val() == '') {
-    $('.ui-autocomplete').hide();
+  // Unmoderated caucus or consultation of the whole
+  if ($('country-card').length <= 1 && $('#speakers-left').length == 0) {
+    window.location.href = '/committee/' + this.getAttribute('data').toLowerCase() + '/motions';
   }
-  else if (window.event.keyCode == 13) {
-    addToGSL($(this).val());
-    $('.ui-autocomplete').hide();
-    $(this).val('');
+  else if ($('country-card').length <= 2
+           && parseInt($('#speakers-left').text()) == 0
+           && $('ul#speakers-list').children().length == 1) {
+    window.location.href = '/committee/' + this.getAttribute('data').toLowerCase() + '/motions';
   }
   else {
-    $(this).autocomplete('search');
-    $('.ui-autocomplete').show();
+    $('.country-card').first().remove();
+    $('#speakers-list li').first().remove();
+    $('#seconds-left').text($('#seconds-left').attr('data'));
   }
 });
 
@@ -102,32 +96,12 @@ function addActions() {
   });
 }
 
-// Set autocomplete
-function autocomplete() {
-  $('form .proposerField').autocomplete({ source: quorumNames,
-                                                 disabled: false })
-  .bind('keydown', function(){
-    if ($(this).val() == '') {
-      $('.ui-autocomplete').hide();
-    }
-    else if (window.event.keyCode == 13) {
-      $('.ui-autocomplete').hide();
-    }
-    else {
-      $(this).autocomplete('search');
-      $('.ui-autocomplete').show();
-    }
-  });
-}
-
 // Find code by country name
 function findCountryCode(countryName) {
   return quorumDelegates.filter(function(country) {
     return country.name == countryName;
   })[0].code;
 }
-
-autocomplete();
 
 // Motion selector
 $('#inputToggle li').on('click', function() {
@@ -259,3 +233,68 @@ $('.other #submit').on('click', function() {
     $('input').val('');
   }
 });
+
+/* Moderated Caucus Speakers List */
+var quorumNames = quorumDelegates.map(function(country){ return country.name; });
+
+$('#add-country').autocomplete({ source: quorumNames })
+.bind('keydown', function(){
+  if ($(this).val() == '') {
+    $('.ui-autocomplete').hide();
+  }
+  else if (window.event.keyCode == 13) {
+    addToSpeakersList($(this).val());
+    $('.ui-autocomplete').hide();
+    $(this).val('');
+  }
+  else {
+    $(this).autocomplete('search');
+    $('.ui-autocomplete').show();
+  }
+});
+
+// Motions list autocomplete
+$('form .proposerField').autocomplete({ source: quorumNames })
+.bind('keydown', function(){
+  if ($(this).val() == '') {
+    $('.ui-autocomplete').hide();
+  }
+  else if (window.event.keyCode == 13) {
+    $('.ui-autocomplete').hide();
+  }
+  else {
+    $(this).autocomplete('search');
+    $('.ui-autocomplete').show();
+  }
+});
+
+function addToSpeakersList(countryName) {
+  // Left menu logic
+  var li = document.createElement('li');
+  li.innerHTML = countryName;
+
+  var speakersLeft = parseInt($('#speakers-left').text());
+  if (speakersLeft <= 1) {
+    $('#input-area').remove();
+  }
+
+  $('#speakers-left').text(speakersLeft - 1);
+  $('#speakers-list').append(li);
+  $('#add-country').autocomplete({ source: quorumNames });
+
+  // Card logic
+  var card = document.createElement('li');
+  var image = document.createElement('img');
+  var name = document.createElement('h1');
+
+  card.className = 'country-card';
+  image.className = 'country-flag';
+  name.className = 'country-name';
+
+  image.src = '/images/' + countryName + '.png';
+  name.textContent = countryName;
+
+  card.appendChild(image);
+  card.appendChild(name);
+  $('.country-card-placeholder').before(card);
+}
