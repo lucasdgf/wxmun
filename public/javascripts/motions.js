@@ -142,7 +142,14 @@ $('.moderated_caucus #submit').on('click', function() {
 
   if(!proposer || !totalTime || !speechTime || !topic) {
     alert('Please complete all fields');
-  } else {
+  }
+  else if(!parseInt(totalTime) || !parseInt(speechTime)) {
+    alert('Please ensure that the total and speech times are integers');
+  }
+  else if((parseInt(totalTime) * 60) % parseInt(speechTime) != 0) {
+    alert('The total time should accomodate an exact number of speakers');
+  }
+  else {
     var li = document.createElement('li');
     li.innerHTML = '<text>Motion for <b>Moderated Caucus</b> proposed by <b>'
                    + $('.moderated_caucus #proposer').val()
@@ -170,7 +177,11 @@ $('.unmoderated_caucus #submit').on('click', function() {
 
   if(!proposer || !totalTime || !topic) {
     alert('Please complete all fields');
-  } else {
+  }
+  else if(!parseInt(totalTime)) {
+    alert('Please ensure that the total and speech times are integers');
+  }
+  else {
     var li = document.createElement('li');
     li.innerHTML = '<text>Motion for <b>Unmoderated Caucus</b> proposed by <b>'
                    + $('.unmoderated_caucus #proposer').val()
@@ -197,7 +208,11 @@ $('.consultation_of_the_whole #submit').on('click', function() {
 
   if(!proposer || !totalTime || !topic) {
     alert('Please complete all fields');
-  } else {
+  }
+  else if(!parseInt(totalTime)) {
+    alert('Please ensure that the total and speech times are integers');
+  }
+  else {
     var li = document.createElement('li');
     li.innerHTML = '<text>Motion for <b>Consultation of the Whole</b> proposed by <b>'
                    + $('.consultation_of_the_whole #proposer').val()
@@ -221,7 +236,8 @@ $('.other #submit').on('click', function() {
 
   if(!proposer || !topic) {
     alert('Please complete all fields');
-  } else {
+  }
+  else {
     var li = document.createElement('li');
     li.innerHTML = '<text>Motion for <b>' + $('.other #topic').val()
                    + '</b> to <b>'
