@@ -8,38 +8,33 @@ block content
         li#unmoderated_caucus Unmoderated Caucus
         li#consultation_of_the_whole Consultation of the Whole
         li#other Other
-      form.inputArea.moderated_caucus
-        h4 Moderated Caucus proposed by
+      form.motion
+        h4 Proposed by
           input.longEntry.proposerField#proposer(type='text', autocomplete='on')
-        h4 Total time of
-          input.narrowEntry#totalTime(type='text')
-          span minutes and a speech time of
-          input.narrowEntry#speechTime(type='text')
-          span seconds per delegate
-        h4 to discuss the topic
-          input.longEntry#topic(type='text')
-          #submit Submit
-      form.inputArea.unmoderated_caucus
-        h4 Unmoderated Caucus proposed by
-          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
-        h4 Total time of
-          input.narrowEntry#totalTime(type='text')
-          span minutes to discuss the topic
-          input.longEntry#topic(type='text')
-          #submit Submit
-      form.inputArea.consultation_of_the_whole
-        h4 Consultation of the Whole proposed by
-          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
-        h4 Total time of
-          input.narrowEntry#totalTime(type='text')
-          span minutes to discuss the topic
-          input.longEntry#topic(type='text')
-          #submit Submit
-      form.inputArea.other
-        h4 Other Motion proposed by
-          input.longEntry.proposerField#proposer(type='text', autocomplete='on')
-        h4 to
-          input.longEntry#topic(type='text')
-          #submit Submit
+        .inputArea.moderated_caucus.active
+          h4 Total time of
+            input.narrowEntry#totalTime(type='text')
+            span minutes and a speech time of
+            input.narrowEntry#speechTime(type='text')
+            span seconds per delegate
+          h4 to discuss the topic
+            input.longEntry#topic(type='text')
+            #submit Submit
+        .inputArea.unmoderated_caucus
+          h4 Total time of
+            input.narrowEntry#totalTime(type='text')
+            span minutes to discuss the topic
+            input.longEntry#topic(type='text')
+            #submit Submit
+        .inputArea.consultation_of_the_whole
+          h4 Total time of
+            input.narrowEntry#totalTime(type='text')
+            span minutes to discuss the topic
+            input.longEntry#topic(type='text')
+            #submit Submit
+        .inputArea.other
+          h4 to
+            input.longEntry#topic(type='text')
+            #submit Submit
 
     ul#sortable

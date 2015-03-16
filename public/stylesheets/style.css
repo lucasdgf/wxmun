@@ -442,6 +442,14 @@ ul {
 }
 
 .inputArea {
+  display: none;
+}
+
+.inputArea.active {
+  display: block !important;
+}
+
+.motion {
   padding: 20px;
 }
 
@@ -509,7 +517,6 @@ ul {
   list-style: none;
   margin: 20px auto;
   overflow: hidden;
-  text-align: center;
   width: 60%;
 }
 
@@ -519,9 +526,16 @@ ul {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
   font-size: 16px;
   font-weight: 300;
-  height: 18px;
+  height: 100%;
   margin: 10px 0;
   padding: 20px 0;
+}
+
+#sortable li text {
+  display: inline-block;
+  margin: 10px 30px;
+  width: calc(100% - 150px) !important;
+  word-break: break-all;
 }
 
 #sortable >:first-child {
@@ -529,43 +543,33 @@ ul {
   color: #fafafa;
 }
 
-#upload-committee {
-  background: #eee;
-  border-radius: 6px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),0 1px 0 0 rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  padding: 40px;
-  width: 600px;
-}
-
-#upload-committee:hover {
-  background: lawngreen;
-}
-
-#upload-committee h2 {
-  text-align: center;
-}
-
-#upload-committee:hover h2 {
-  color: #fff;
-}
-
 /* Motion */
 .motionController {
   display: inline-block;
+  margin: 0;
   float: right;
+  margin-right: 20px;
+  vertical-align: bottom;
+  width: 70px;
 }
 
 .motionController i {
+  border-radius: 6px;
   cursor: pointer;
-  padding: 0 20px 0 10px;
+  float: right;
+  padding: 10px;
 }
 
 .motionController i:hover {
-  color: #be1f2e;
+  background: #ccc;
+  color: #fff;
 }
 
 .ui-helper-hidden-accessible {
+  display: none;
+}
+
+.ui-front {
   display: none;
 }
 
