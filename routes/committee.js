@@ -19,6 +19,7 @@ router.get('/:committee/stats', function(req, res, next) {
       var committee = results[0];
       var delegateClass = Parse.Object.extend('Delegate');
       var delegateQuery = new Parse.Query(delegateClass);
+      delegateQuery.limit(200);
 
       // find countries
       delegateQuery.containedIn('objectId', committee.get('delegates'));
@@ -61,6 +62,7 @@ router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res
   var countryCode = req.params.countrycode;
   var delegateClass = Parse.Object.extend('Delegate');
   var delegateQuery = new Parse.Query(delegateClass);
+  delegateQuery.limit(200);
 
   // find delegate
   delegateQuery.equalTo('committee', committeeCode);
@@ -231,6 +233,7 @@ router.get('/:committee/rollcall', function(req, res, next) {
       var committee = results[0];
       var delegateClass = Parse.Object.extend('Delegate');
       var delegateQuery = new Parse.Query(delegateClass);
+      delegateQuery.limit(200);
 
       // find countries
       delegateQuery.containedIn('objectId', committee.get('delegates'));
@@ -244,6 +247,8 @@ router.get('/:committee/rollcall', function(req, res, next) {
               quorum = committee.get('attendanceCount') ? committee.get('quorum') : 0,
               gsl = committee.get('gsl'),
               rollcallCountries = countries.slice(committee.get('attendanceCount'), totalCountries);
+              console.log(countries);
+              console.log(totalCountries);
 
           res.render('rollcall', { committee: committee.get('code'),
                                    committeeName: committee.get('name'),
@@ -283,6 +288,7 @@ router.get('/:committee/gsl', function(req, res, next) {
       var committee = results[0];
       var delegateClass = Parse.Object.extend('Delegate');
       var delegateQuery = new Parse.Query(delegateClass);
+      delegateQuery.limit(200);
 
       // find countries
       delegateQuery.containedIn('objectId', committee.get('delegates'));
