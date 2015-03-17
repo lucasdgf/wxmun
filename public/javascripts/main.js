@@ -1,3 +1,10 @@
+$("img").each(function(){
+  var image = $(this);
+  if(image.context.naturalWidth == 0 || image.readyState == 'uninitialized') {
+    $(image).unbind("error").attr("src", "/images/no-country.jpg");
+   }
+});
+
 $('#toggle-nav').click(function(evt){
   var sideNav = $('#side-nav');
 
