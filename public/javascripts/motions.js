@@ -147,7 +147,7 @@ $('.moderated_caucus #submit').on('click', function() {
           totalTime = motion.find('#totalTime').text(),
           speechTime = motion.find('#speechTime').text();
 
-      window.location.href = '/committee/disec/moderated/' + countryCode + '/' + totalTime + '/' + speechTime;
+      window.location.href = '/committee/' + $('#committee-title').attr('data').toLowerCase() + '/moderated/' + countryCode + '/' + totalTime + '/' + speechTime;
     });
   }
 });
@@ -179,7 +179,7 @@ $('.unmoderated_caucus #submit').on('click', function() {
           countryCode = findCountryCode(motion.find('#proposer').text()),
           totalTime = motion.find('#totalTime').text();
 
-      window.location.href = '/committee/disec/unmoderated/' + countryCode + '/' + totalTime;
+      window.location.href = '/committee/' + $('#committee-title').attr('data').toLowerCase() + '/unmoderated/' + countryCode + '/' + totalTime;
   });
   }
 });
@@ -211,7 +211,7 @@ $('.consultation_of_the_whole #submit').on('click', function() {
           countryCode = findCountryCode(motion.find('#proposer').text()),
           totalTime = motion.find('#totalTime').text();
 
-      window.location.href = '/committee/disec/consultation/' + countryCode + '/' + totalTime;
+      window.location.href = '/committee/' + $('#committee-title').attr('data').toLowerCase() + '/consultation/' + countryCode + '/' + totalTime;
     });
   }
 });

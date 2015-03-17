@@ -15,7 +15,7 @@ html
 
     #committee-data(class=expandClass, data=totalCountries)
       h2#page-title= title
-      h3#committee-title= committeeName
+      h3#committee-title(data=committee)= committeeName
       ul
         li
           h3#sm= Math.floor(quorum / 2) + 1

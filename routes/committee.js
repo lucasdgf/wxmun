@@ -70,7 +70,10 @@ router.post('/:committee/logcountry/:countrycode/:attendance', function(req, res
   delegateQuery.limit(200);
 
   // find delegate
-  delegateQuery.equalTo('committee', committeeCode);
+  if(countryCode.indexOf("NGO") <= -1) {
+    delegateQuery.equalTo('committee', committeeCode);
+  }
+
   delegateQuery.equalTo('code', countryCode);
   delegateQuery.find({
     success: function(results) {
@@ -185,8 +188,6 @@ router.post('/:committee/removegsl/:countrycode', function(req, res) {
     success: function(results) {
       var committee = results[0];
       var gsl = committee.get('gsl').filter(function(country){ return country.code != countryCode });
-      console.log(countryCode);
-      console.log(gsl);
       committee.set('gsl', gsl);
       committee.save();
       res.redirect('');
@@ -252,8 +253,6 @@ router.get('/:committee/rollcall', function(req, res, next) {
               quorum = committee.get('attendanceCount') ? committee.get('quorum') : 0,
               gsl = committee.get('gsl'),
               rollcallCountries = countries.slice(committee.get('attendanceCount'), totalCountries);
-              console.log(countries);
-              console.log(totalCountries);
 
           res.render('rollcall', { committee: committee.get('code'),
                                    committeeName: committee.get('name'),
