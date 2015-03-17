@@ -4,6 +4,11 @@ var Parse = require('parse').Parse;
 
 Parse.initialize('pY4jnhhdNKVRJjL0xGL9q4QQmsBbLXfPLpTMXPpx', 'oDLZE9iIj6GKD8mP8wY0cuBA1l37npMkjVEXn13P');
 
+/* Redirect committee page to motions */
+router.get('/:committee', function(req, res, next) {
+  res.redirect('/committee/' + req.params.committee + '/motions');
+});
+
 /* Stats Page */
 router.get('/:committee/stats', function(req, res, next) {
   // prepare for query

@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
         return { name: committee.get('name'),
                  code: committee.get('code') } });
       res.render('index', { committees: committees,
-                            title: 'wXMUN'});
+                            title: 'WorldMUN 2015'});
     },
     error: function(error) {
       console.log('Error: ' + error.code + ' ' + error.message);
