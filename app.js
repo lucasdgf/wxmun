@@ -6,10 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var basicAuth = require('basic-auth-connect');
 
-// MongoDB Setup
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/wxmun');
+// set up new relic
+require('newrelic');
 
 var routes = require('./routes/index');
 var committee = require('./routes/committee');
@@ -28,12 +26,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(basicAuth('admin', 'worldlove2015'));
-
-// Make db accessible to router
-app.use(function(req,res,next){
-  req.db = db;
-  next();
-});
 
 app.use('/', routes);
 app.use('/committee', committee);
