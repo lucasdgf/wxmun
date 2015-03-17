@@ -1,6 +1,6 @@
 $("img").each(function(){
   var image = $(this);
-  if(image.context.naturalWidth == 0 || image.readyState == 'uninitialized') {
+  if(image.context.naturalWidth == 0) {
     $(image).unbind("error").attr("src", "/images/no-country.jpg");
    }
 });
