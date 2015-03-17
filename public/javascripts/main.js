@@ -1,8 +1,12 @@
-$("img").each(function(){
-  var image = $(this);
-  if(image.context.naturalWidth == 0) {
-    $(image).unbind("error").attr("src", "/images/no-country.jpg");
-   }
+$(window).load(function() {
+  $("img").each(function(){
+    $(window).load(function() {
+        // this will fire after the entire page is loaded, including images
+    });  var image = $(this);
+    if(image.context.naturalWidth == 0) {
+      $(image).unbind("error").attr("src", "/images/no-country.jpg");
+     }
+  });
 });
 
 $('#toggle-nav').click(function(evt){
