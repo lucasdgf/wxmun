@@ -62,11 +62,22 @@ router.get('/:committee/stats', function(req, res, next) {
             }
           });
 
+          var motions = {};
+          committee.get('caucus').map(function(caucus) {
+            if(!motions[caucus.proposer]) {
+              motions[caucus.proposer] = 1;
+            }
+            else {
+              motions[caucus.proposer] += 1;
+            }
+          });
+
           res.render('stats', { committee: committeeCode,
                                 committeeName: committee.get('name'),
                                 countries: countries,
                                 expand: true,
                                 gsl: gsl,
+                                motions: motions,
                                 quorum: committee.get('quorum'),
                                 quorumDelegates: committee.get('quorumDelegates'),
                                 totalCountries: countries.length,

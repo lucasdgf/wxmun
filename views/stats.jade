@@ -6,7 +6,7 @@ block content
       h2 Total Countries: #{totalCountries}
       table
         thead
-          th(style='width: ' + (100 / (numberSessions + 2)) + '%') Country
+          th(style='width: ' + (100 / (numberSessions + 2)) + '%') Delegate
           - for (var i = 1; i <= numberSessions ; i++) {
             th(style='width: ' + (100 / (numberSessions + 2)) + '%') Session #{i}
           - }
@@ -30,3 +30,12 @@ block content
                     td= (country.get('attendancePerc') * 100).toFixed(2) + '%'
                   else
                     td NA
+      table
+        thead
+          th(style='width: 50%') Delegate
+          th(style='width: 50%') Number of Motions Passed
+        tbody
+          each numberMotions, delegate in motions
+            tr
+              td= delegate
+              td= numberMotions
