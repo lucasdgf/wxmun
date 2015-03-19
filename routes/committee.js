@@ -34,8 +34,34 @@ router.get('/:committee/stats', function(req, res, next) {
             return (a.get('name') > b.get('name')) ? 1 : -1;
           });
 
-          var numberSessions = countries[0].get('attendance').length,
+          var notNGOs = countries.filter(function(country) {
+            return country.get('code').indexOf('NGO') <= -1;
+          }).map(function(country) {
+             return country.get('attendance') ? country.get('attendance').length : 0;
+          });
+
+          var numberSessions =  Math.max.apply(null, notNGOs),
               gsl = committee.get('gsl');
+
+          countries.map(function(country) {
+            var attendance = 0;
+            country.get('attendance').map(function(session) {
+              attendance += (session.record == 'P' ? 1 : 0);
+            });
+
+            if(country.get('attendance')) {
+              if(country.get('attendance').length) {
+                country.set('attendancePerc', attendance / country.get('attendance').length);
+              }
+              else {
+                country.set('attendancePerc', 0);
+              }
+            }
+            else {
+              country.set('attendancePerc', 'NA');
+            }
+          });
+
           res.render('stats', { committee: committeeCode,
                                 committeeName: committee.get('name'),
                                 countries: countries,

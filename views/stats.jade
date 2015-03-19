@@ -6,18 +6,27 @@ block content
       h2 Total Countries: #{totalCountries}
       table
         thead
-          th(style='width: ' + (100 / (numberSessions + 1)) + '%') Country
+          th(style='width: ' + (100 / (numberSessions + 2)) + '%') Country
           - for (var i = 1; i <= numberSessions ; i++) {
-            th(style='width: ' + (100 / (numberSessions + 1)) + '%') Session #{i}
+            th(style='width: ' + (100 / (numberSessions + 2)) + '%') Session #{i}
           - }
+          th(style='width: ' + (100 / (numberSessions + 2)) + '%') Attendance (%)
         tbody
           each country in logs
             tr
-              td= country.get('name')
-              if country.get('attendance')
-                each session in country.get('attendance')
-                  td(class=session.record)
-                    if session.record == 'A'
-                      i.fa.fa-times
-                    else
-                      i.fa.fa-check
+              if country.get('code').indexOf('NGO') <= -1
+                td= country.get('name')
+                if country.get('attendance')
+                  each session in country.get('attendance')
+                    td(class=session.record)
+                      if session.record == 'A'
+                        i.fa.fa-times
+                      else
+                        i.fa.fa-check
+                  - for (var i = 0; i < numberSessions - country.get('attendance').length; i++) {
+                    td NA
+                  - }
+                  if country.get('attendancePerc')
+                    td= (country.get('attendancePerc') * 100).toFixed(2) + '%'
+                  else
+                    td NA
